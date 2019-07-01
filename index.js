@@ -69,7 +69,9 @@ app.get('/state', safeHandler(async function (req, res) {
 
 app.use(serveStatic(__dirname + '/public'))
 
-app.post('/start', function (req, res) {
+app.post('/height', function (req, res) {
+  console.log('received, H:', req.query.height)
+
   res.status(200).send('OK')
 })
 

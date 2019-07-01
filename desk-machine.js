@@ -37,33 +37,33 @@ async function setHeight (currentHeight, newHeight) {
         return
 
     if (newHeight > currentHeight)
-        extend()
+        await extend()
     else
-        retract()
+        await retract()
 
     // TODO: periodically update the desk state (maybe like every 0.5 seconds?)
     await delay(timeToSleep)
 
-    stop()
+    await stop()
     saveHeight(newHeight)
 }
 
 
-function extend () {
-    gpiop.write(legsDownPin, true)
-    gpiop.write(legsUpPin, false)
+async function extend () {
+    await gpiop.write(legsDownPin, true)
+    await gpiop.write(legsUpPin, false)
 }
 
 
-function retract () {
-    gpiop.write(legsUpPin, true)
-    gpiop.write(legsDownPin, false)
+async function retract () {
+    await gpiop.write(legsUpPin, true)
+    await gpiop.write(legsDownPin, false)
 }
 
 
-function stop () {
-    gpiop.write(legsUpPin, true)
-    gpiop.write(legsDownPin, true)
+async function stop () {
+    await gpiop.write(legsUpPin, true)
+    await gpiop.write(legsDownPin, true)
 }
 
 
@@ -82,6 +82,7 @@ module.exports = function () {
 			for (const pin of pins)
 		        await gpiop.setup(pin, gpio.DIR_OUT)
 
+		    await stop()
 		    console.log('initialization complete, pins setup\n')
 		    fsm.setState('ready')
 		}
@@ -90,6 +91,7 @@ module.exports = function () {
 
 	fsm.addState('ready', {
 		enter: function () {
+			console.log('entering ready state')
 			_setHeight = function (height) {
 				fsm.setState('moving', height)
 			}
@@ -102,6 +104,7 @@ module.exports = function () {
 
 	fsm.addState('moving', {
 		enter: async function (newHeight) {
+			console.log('moving to new height:', newHeight)
 			await setHeight(currentHeight, newHeight)
 			fsm.setState('ready')
 		}
@@ -113,7 +116,9 @@ module.exports = function () {
 	return {
 		setHeight: (height) => _setHeight(height),
 		getState: function () {
-			return { state: fsm.getCurrentState(), height: currentHeight }
+			return {
+				state: fsm.getCurrentState(), height: currentHeight
+			}
 		}
 	}
 }
