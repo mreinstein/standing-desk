@@ -3,12 +3,15 @@
 'use strict'
 
 const delay                  = require('delay')
+const deskMachine            = require('./desk-machine.js')
 const express                = require('express')
 const register               = require('register-multicast-dns')
 const safeHandler            = require('async-middleware').wrap
 const serveStatic            = require('serve-static')
 //const { Machine, interpret } = require('xstate');
 
+
+const desk = deskMachine()
 
 register('desk')
 const app = express()
@@ -55,7 +58,7 @@ app.get('/state', safeHandler(async function (req, res) {
 
   while (connectionOpen) {
   
-    //writeSSE({ id: '' + Math.random(), event: 'message', data: { }  })
+    writeSSE({ event: 'message', data: { deskState: desk.getState() }  })
 
     await delay(2000); // poll every 2s for desk state update
   }
