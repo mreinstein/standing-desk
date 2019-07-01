@@ -6,6 +6,9 @@
   <body>
     Standing Desk
 
+    <input type="text"></input>
+    <button type="submit">Set height</button>
+
     <script>
       const connection = new EventSource('/state') //, { withCredentials: true })
 
@@ -23,6 +26,22 @@
         console.log('msg:', e.data)
         
       })
+
+      const button = document.body.querySelector('button')
+      button.click = function (e) {
+        e.preventDefault()
+
+        const height = document.body.querySelector('input').value
+        console.log('sending:', height)
+        const xhr = new XMLHttpRequest()
+        xhr.open("POST", '/height?height='+height, true)
+        xhr.setRequestHeader('Content-Type', 'application/json')
+        xhr.send(JSON.stringify({
+            height
+        }))
+
+        return false
+      }
 
     </script>
   </body>
