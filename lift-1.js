@@ -28,6 +28,9 @@ async function setHeight (currentHeight, newHeight) {
     const travelDistance = Math.abs(currentHeight - newHeight)
     const timeToSleep = Math.floor(travelDistance / SPEED * 1000)
 
+    if (timeToSleep < 500)
+        return
+
     if (newHeight > currentHeight)
         extend()
     else
@@ -41,21 +44,20 @@ async function setHeight (currentHeight, newHeight) {
 
 
 function extend () {
-  gpiop.write(legsDownPin, true)
-  gpiop.write(legsUpPin, false)
+    gpiop.write(legsDownPin, true)
+    gpiop.write(legsUpPin, false)
 }
 
 
 function retract () {
-  gpiop.write(legsUpPin, true)
-  gpiop.write(legsDownPin, false)
+    gpiop.write(legsUpPin, true)
+    gpiop.write(legsDownPin, false)
 }
 
 
 function stop () {
-  const leg = 0;
-  gpiop.write(legsUpPin, true)
-  gpiop.write(legsDownPin, true)
+    gpiop.write(legsUpPin, true)
+    gpiop.write(legsDownPin, true)
 }
 
 
