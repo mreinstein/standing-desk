@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Standing Desk</title>
+  </head>
+  <body>
+    Standing Desk
+
+    <script>
+      const connection = new EventSource('/state') //, { withCredentials: true })
+
+      connection.addEventListener('error', function (e) {
+        console.log('there was an error in the connection listener SSE:', e)
+        if (e.readyState == EventSource.CLOSED)
+          console.log('SSE connection was closed')
+      })
+
+      connection.addEventListener('open', function(e) {
+        console.log('SSE Connection is opened', e)
+      }, false)
+
+      connection.addEventListener('message', function (e) {
+        console.log('msg:', e.data)
+        
+      })
+
+    </script>
+  </body>
+</html>

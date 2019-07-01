@@ -1,0 +1,19 @@
+[Unit]
+Description=standing desk service
+After=syslog.target network.target
+
+[Service]
+Type=simple
+User=pi
+Group=pi
+WorkingDirectory=/home/pi/standing-desk
+ExecStart=/home/pi/standing-desk/index.js
+Environment="NODE_ENV=production"
+Restart=on-failure
+KillSignal=SIGINT
+# Tag things in the log
+SyslogIdentifier=desk
+#StandardOutput=syslog
+
+[Install]
+WantedBy=multi-user.target
