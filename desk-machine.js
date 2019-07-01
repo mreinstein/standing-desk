@@ -90,8 +90,8 @@ module.exports = function () {
 
 	fsm.addState('ready', {
 		enter: function () {
-			_setHeight = function (newHeight) {
-				fsm.setState('moving', newHeight)
+			_setHeight = function (height) {
+				fsm.setState('moving', height)
 			}
 		},
 		exit: function () {
@@ -111,7 +111,7 @@ module.exports = function () {
 	fsm.setState('initializing')
 
 	return {
-		setHeight: () => _setHeight(),
+		setHeight: (height) => _setHeight(height),
 		getState: function () {
 			return { state: fsm.getCurrentState(), height: currentHeight }
 		}
