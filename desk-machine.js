@@ -29,22 +29,34 @@ function loadHeight () {
 }
 
 
-async function setHeight (currentHeight, newHeight) {
-    const travelDistance = Math.abs(currentHeight - newHeight)
+async function setHeight (oldHeight, newHeight) {
+    const travelDistance = Math.abs(oldHeight - newHeight)
     const timeToSleep = Math.floor(travelDistance / SPEED * 1000)
 
     if (timeToSleep < 500)
         return
 
-    if (newHeight > currentHeight)
+    if (newHeight > oldHeight)
         await extend()
     else
         await retract()
 
     // TODO: periodically update the desk state (maybe like every 0.5 seconds?)
+    const start = Date.now()
+
+    const interval = setInterval(function () {
+    	const delta = (Date.now() - start) / 1000
+    	const direction = (newHeight > oldHeight) ? 1 : -1
+    	console.log('elapsed:', delta)
+    	console.log('height:', oldHeight + SPEED * delta * direction)
+    }, 500)
     await delay(timeToSleep)
 
+    clearInterval(interval)
+
     await stop()
+
+    currentHeight = oldHeight 
     saveHeight(newHeight)
 }
 
