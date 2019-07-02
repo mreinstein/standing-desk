@@ -39,7 +39,7 @@ async function setHeight (oldHeight, newHeight) {
     const travelDistance = Math.abs(oldHeight - newHeight)
     const timeToSleep = Math.floor(travelDistance / SPEED * 1000)
 
-    if (timeToSleep < 500)
+    if (timeToSleep < 50)
         return
 
     if (newHeight > oldHeight)
