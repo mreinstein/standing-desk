@@ -6,6 +6,7 @@ const fs    = require('fs')
 const gpio  = require('rpi-gpio')
 
 
+const MAX_HEIGHT = 18
 const HEIGHT_FILE  = __dirname + '/height'
 const SPEED = 0.56 // how fast the desk extends/retracts (inches per second)
 
@@ -30,6 +31,11 @@ function loadHeight () {
 
 
 async function setHeight (oldHeight, newHeight) {
+	if (newHeight < 0)
+    	newHeight = 0
+  	if (newHeight > MAX_HEIGHT)
+   	 	newHeight = MAX_HEIGHT
+
     const travelDistance = Math.abs(oldHeight - newHeight)
     const timeToSleep = Math.floor(travelDistance / SPEED * 1000)
 
@@ -56,7 +62,7 @@ async function setHeight (oldHeight, newHeight) {
 
     await stop()
 
-    currentHeight = oldHeight 
+    currentHeight = newHeight 
     saveHeight(newHeight)
 }
 

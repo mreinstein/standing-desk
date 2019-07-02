@@ -70,8 +70,8 @@ app.get('/state', safeHandler(async function (req, res) {
 app.use(serveStatic(__dirname + '/public'))
 
 app.post('/height', function (req, res) {
-  //console.log('received, H:', req.query.height)
-  desk.setHeight(parseFloat(req.query.height))
+  const height = parseFloat(req.query.height)
+  desk.setHeight(height)
 
   res.status(200).send('OK')
 })
