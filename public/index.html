@@ -27,7 +27,7 @@
       connection.addEventListener('message', function (e) {
         console.log('msg:', e.data)
         const data = JSON.parse(e.data)
-        document.body.querySelector('label').innerText = `height: ${e.data.deskState.height.toFixed(1)}"  state: ${e.data.deskState.state}`
+        document.body.querySelector('label').innerText = `height: ${data.deskState.height.toFixed(1)}"  state: ${data.deskState.state}`
       })
 
       const button = document.body.querySelector('button')
