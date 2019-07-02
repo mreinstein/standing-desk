@@ -54,7 +54,8 @@ async function setHeight (oldHeight, newHeight) {
     	const delta = (Date.now() - start) / 1000
     	const direction = (newHeight > oldHeight) ? 1 : -1
     	console.log('elapsed:', delta)
-    	console.log('height:', oldHeight + SPEED * delta * direction)
+    	currentHeight = oldHeight + SPEED * delta * direction
+    	console.log('height:', currentHeight)
     }, 500)
     await delay(timeToSleep)
 
