@@ -47,16 +47,14 @@ async function setHeight (oldHeight, newHeight) {
     else
         await retract()
 
-    // TODO: periodically update the desk state (maybe like every 0.5 seconds?)
+    // periodically update the desk state (maybe like every 0.5 seconds?)
     const start = Date.now()
 
     const interval = setInterval(function () {
     	const delta = (Date.now() - start) / 1000
     	const direction = (newHeight > oldHeight) ? 1 : -1
-    	console.log('elapsed:', delta)
     	currentHeight = oldHeight + SPEED * delta * direction
-    	console.log('height:', currentHeight)
-    }, 500)
+    }, 100)
     await delay(timeToSleep)
 
     clearInterval(interval)
