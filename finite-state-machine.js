@@ -9,7 +9,7 @@ module.exports = function fsm ({ verbose } = { }) {
   }
 
   const getCurrentState = function () {
-    return states[currentState]
+    return currentState
   }
 
   const setState = async function (stateName, ...args) {
