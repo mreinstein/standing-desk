@@ -9,6 +9,8 @@
     <input type="text"></input>
     <button type="submit">Set height</button>
 
+    <label></label>
+
     <script>
       const connection = new EventSource('/state') //, { withCredentials: true })
 
@@ -24,7 +26,8 @@
 
       connection.addEventListener('message', function (e) {
         console.log('msg:', e.data)
-        
+        const data = JSON.parse(e.data)
+        document.body.querySelector('label').innerText = `height: ${e.data.deskState.height.toFixed(1)}"  state: ${e.data.deskState.state}`
       })
 
       const button = document.body.querySelector('button')
