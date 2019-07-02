@@ -63,9 +63,9 @@ app.get('/state', safeHandler(async function (req, res) {
     if (lastHeight !== desk.getState().height) {
       lastHeight = desk.getState().height
       writeSSE({ event: 'message', data: { deskState: desk.getState() }  })
+    } else {
+      await delay(1000); // poll every 1s for desk state update
     }
-   
-    await delay(2000); // poll every 1s for desk state update
   }
 
   res.end()
