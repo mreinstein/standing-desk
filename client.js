@@ -20,6 +20,7 @@ const patch = init([
 let oldVnode = document.querySelector('main')
 
 const model = {
+  desiredHeight: -1,
   height: -1,
   state: ''
 }
@@ -45,8 +46,12 @@ function render (model) {
         },
         on: {
           keyup: function (e) {
-            if (e.key === 'Enter' && !isNaN(parseFloat(e.target.value)))
-              setHeight(parseFloat(e.target.value))
+            const value = parseFloat(e.target.value)
+            model.desiredHeight = isNaN(value) ? -1 : value
+            console.log('desired height set to', model.desiredHeight)
+
+            if (e.key === 'Enter')
+              setHeight(model.desiredHeight)
           }
         }
       }),
@@ -58,7 +63,7 @@ function render (model) {
         on: {
           click: function (e) {
             e.preventDefault()
-            setHeight(model.height)
+            setHeight(model.desiredHeight)
             return false
           }
         }
