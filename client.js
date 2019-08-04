@@ -37,6 +37,8 @@ function setHeight (height) {
 
 
 function render (model) {
+  console.log('rendering model')
+  
   const newVnode = h('main', [
       h('h3', 'Standing Desk'),
       h('input', {
