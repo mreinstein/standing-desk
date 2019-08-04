@@ -743,8 +743,8 @@
 
 
     function render (model) {
-      console.log('rendering model');
-      
+      console.log('rendering model::', model);
+
       const newVnode = h('main', [
           h('h3', 'Standing Desk'),
           h('input', {
