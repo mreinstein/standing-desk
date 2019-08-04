@@ -734,7 +734,6 @@
     function setHeight (height) {
       if (height < 0)
         return
-      console.log('sending:', height);
       const xhr = new XMLHttpRequest();
       xhr.open('POST', '/height?height='+height, true);
       xhr.setRequestHeader('Content-Type', 'application/json');
@@ -743,8 +742,6 @@
 
 
     function render (model) {
-      console.log('rendering model::', model);
-
       const newVnode = h('main', [
           h('h3', 'Standing Desk'),
           h('input', {
@@ -794,7 +791,6 @@
     }, false);
 
     connection.addEventListener('message', function (e) {
-      console.log('msg:', e.data);
       const data = JSON.parse(e.data);
       model.height = parseFloat(data.deskState.height).toFixed(1);
       model.state = data.deskState.state;
