@@ -19,7 +19,7 @@ npm install
 
 
 # install and configurate nginx
-sudo apt-get install nginx
+sudo apt-get install -y nginx
 
 sudo systemctl enable nginx
 
