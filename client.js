@@ -17,35 +17,12 @@ const patch = init([
     eventModule   // attaches event listeners
 ])
 
-
 let oldVnode = document.querySelector('main')
-
 
 const model = {
   height: -1,
   state: ''
 }
-
-
-const connection = new EventSource('/state') //, { withCredentials: true })
-
-connection.addEventListener('error', function (e) {
-  console.log('there was an error in the connection listener SSE:', e)
-  if (e.readyState == EventSource.CLOSED)
-    console.log('SSE connection was closed')
-})
-
-connection.addEventListener('open', function(e) {
-  console.log('SSE Connection is opened', e)
-}, false)
-
-connection.addEventListener('message', function (e) {
-  console.log('msg:', e.data)
-  const data = JSON.parse(e.data)
-  model.height = data.deskState.height.toFixed(1)
-  model.state = data.deskState.state
-  render(model)
-})
 
 
 function setHeight (height) {
@@ -95,3 +72,23 @@ function render (model) {
 
 
 render(model)
+
+const connection = new EventSource('/state') //, { withCredentials: true })
+
+connection.addEventListener('error', function (e) {
+  console.log('there was an error in the connection listener SSE:', e)
+  if (e.readyState == EventSource.CLOSED)
+    console.log('SSE connection was closed')
+})
+
+connection.addEventListener('open', function(e) {
+  console.log('SSE Connection is opened', e)
+}, false)
+
+connection.addEventListener('message', function (e) {
+  console.log('msg:', e.data)
+  const data = JSON.parse(e.data)
+  model.height = data.deskState.height.toFixed(1)
+  model.state = data.deskState.state
+  render(model)
+})
