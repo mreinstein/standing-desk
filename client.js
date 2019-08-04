@@ -48,13 +48,13 @@ function render (model) {
           keyup: function (e) {
             const value = parseFloat(e.target.value)
             model.desiredHeight = isNaN(value) ? -1 : value
-            console.log('desired height set to', model.desiredHeight)
 
             if (e.key === 'Enter')
               setHeight(model.desiredHeight)
           }
         }
       }),
+      h('span', 'inches'),
       h('button', {
         attrs: {
           disabled: (model.state !== 'ready'),
