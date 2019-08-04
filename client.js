@@ -66,7 +66,7 @@ function render (model) {
           }
         }
       }, 'Set Height'),
-      h('label', model.state ? `height: ${model.height.toFixed(1)}"  state: ${model.state}` : 'retrieving state')
+      h('label', model.state ? `height: ${model.height}"  state: ${model.state}` : 'retrieving state')
   ])
 
   oldVnode = patch(oldVnode, newVnode)
@@ -90,7 +90,7 @@ connection.addEventListener('open', function(e) {
 connection.addEventListener('message', function (e) {
   console.log('msg:', e.data)
   const data = JSON.parse(e.data)
-  model.height = data.deskState.height.toFixed(1)
+  model.height = parseFloat(data.deskState.height).toFixed(1)
   model.state = data.deskState.state
   render(model)
 })
