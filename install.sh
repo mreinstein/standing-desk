@@ -6,15 +6,23 @@
 #echo 'dtoverlay=pi3-disable-bt' >> /boot/config.txt
 #exit
 
-# install node/npm
-curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+# install node/npm on raspberry pi zero w
+wget https://nodejs.org/dist/latest-v10.x/node-v10.16.1-linux-armv6l.tar.xz
+tar -xvf node-v10.16.1-linux-armv6l.tar.xz
+cd node-v10.16.1-linux-armv6l
+sudo cp -R * /usr/local/
+cd ..
+rm -rf node-v10.16.1-linux-armv6l
+rm node-v10.16.1-linux-armv6l.tar.xz
 
-sudo apt-get install -y nodejs build-essential
+
+# install node/npm for other platforms
+#curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+#sudo apt-get install -y nodejs build-essential
+
 
 sudo apt-get update
-
 sudo apt-get upgrade
-
 npm install
 
 
