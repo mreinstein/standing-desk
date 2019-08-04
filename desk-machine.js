@@ -8,6 +8,8 @@ const gpio  = require('rpi-gpio')
 
 const MAX_HEIGHT = 18
 const HEIGHT_FILE  = __dirname + '/height'
+const HISTORY_FILE = __dirname + '/history'
+
 const SPEED = 0.56 // how fast the desk extends/retracts (inches per second)
 
 const gpiop = gpio.promise
@@ -22,6 +24,7 @@ let currentHeight = 0
 
 function saveHeight (height) {
     fs.writeFileSync(HEIGHT_FILE, height, 'utf8')
+    fs.appendFileSync(HISTORY_FILE, `${Date.now()},${height}\n`)
 }
 
 

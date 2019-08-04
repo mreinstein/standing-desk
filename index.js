@@ -5,6 +5,7 @@
 const delay                  = require('delay')
 const deskMachine            = require('./desk-machine.js')
 const express                = require('express')
+const fs                     = require('fs')
 const register               = require('register-multicast-dns')
 const safeHandler            = require('async-middleware').wrap
 const serveStatic            = require('serve-static')
@@ -22,6 +23,14 @@ app.use(function (req, res, next) {
   res.set('Cache-Control', val)
   res.set('Pragma', 'no-cache')
   return next()
+})
+
+app.get('/history', function (req, res) {
+  if (!fs.existsSync(__dirname + '/history'))
+    return res.send('')
+
+  const history = fs.readFileSync(__dirname + '/history', 'utf8')
+  res.send(history)
 })
 
 app.get('/state', safeHandler(async function (req, res) {
