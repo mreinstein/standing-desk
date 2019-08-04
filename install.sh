@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# disable bluetooth
+sudo bash
+echo '# disable bluetooth' >> /boot/config.txt
+echo 'dtoverlay=pi3-disable-bt' >> /boot/config.txt
+exit
+
 # install node/npm
 curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 
