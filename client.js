@@ -101,8 +101,11 @@ function renderHistory (model) {
       h('td', 'Height')
     ]),
     model.history.map(function (line) {
+      console.log('stbu a')
       const [ timestamp, height ] = line.split(',')
       const d = new Date(parseInt(timestamp, 10))
+      console.log('got line', timestamp, height, d)
+
       return h('tr', [
         h('td', `${d.toLocaleDateString()} ${d.toLocaleTimeString()}`),
         h('td', `${height}"`)
