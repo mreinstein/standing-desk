@@ -728,8 +728,16 @@
     const model = {
       desiredHeight: -1,
       height: -1,
-      state: ''
+      state: '',
+      history: [ ]
     };
+
+
+    async function getHistory () {
+      const response = await fetch('/history');
+      const body = await response.text();
+      return body.split('\n').map((line) => line.trim().length > 0);
+    }
 
 
     function setHeight (height) {
@@ -774,32 +782,47 @@
               }
             }
           }, 'Set Height'),
-          h('label', model.state ? `height: ${model.height}"  state: ${model.state}` : 'retrieving state')
+          h('label', model.state ? `height: ${model.height}"  state: ${model.state}` : 'retrieving state'),
+          renderHistory(model)
       ]);
 
       oldVnode = patch(oldVnode, newVnode);
     }
 
 
-    render(model);
+    function renderHistory (model) {
+      console.log('todo: render the history:', model);
+      return h('div', 'history')
+    }
 
-    const connection = new EventSource('/state'); //, { withCredentials: true })
 
-    connection.addEventListener('error', function (e) {
-      console.log('there was an error in the connection listener SSE:', e);
-      if (e.readyState == EventSource.CLOSED)
-        console.log('SSE connection was closed');
-    });
-
-    connection.addEventListener('open', function(e) {
-      console.log('SSE Connection is opened', e);
-    }, false);
-
-    connection.addEventListener('message', function (e) {
-      const data = JSON.parse(e.data);
-      model.height = parseFloat(data.deskState.height).toFixed(1);
-      model.state = data.deskState.state;
+    async function main () {
       render(model);
-    });
+
+      const connection = new EventSource('/state'); //, { withCredentials: true })
+
+      connection.addEventListener('error', function (e) {
+        console.log('there was an error in the connection listener SSE:', e);
+        if (e.readyState == EventSource.CLOSED)
+          console.log('SSE connection was closed');
+      });
+
+      connection.addEventListener('open', function(e) {
+        console.log('SSE Connection is opened', e);
+      }, false);
+
+      connection.addEventListener('message', function (e) {
+        const data = JSON.parse(e.data);
+        model.height = parseFloat(data.deskState.height).toFixed(1);
+        model.state = data.deskState.state;
+        render(model);
+      });
+
+      model.history = await getHistory();
+      render(model);
+    }
+
+
+    main();
 
 }());
