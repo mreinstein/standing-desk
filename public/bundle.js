@@ -793,7 +793,7 @@
     function renderHistory (model) {
       return h('div', model.history.map(function (line) {
         const [ timestamp, height ] = line.split(',');
-        const d = new Date(timestamp);
+        const d = new Date(parseInt(timestamp, 10));
         return `${d.toLocaleDateString()} ${d.toLocaleTimeString()}  ${height}`
       }))
     }
