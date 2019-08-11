@@ -797,7 +797,8 @@
 
       return h('table', {
           style: {
-            width: '100%'
+            width: '100%',
+            maxWidth: '500px'
           }
         },
         [
@@ -837,11 +838,15 @@
         const data = JSON.parse(e.data);
         model.height = parseFloat(data.deskState.height).toFixed(1);
         model.state = data.deskState.state;
+
+        if (model.state === 'ready') {
+          setTimeout(async function () {
+            model.history = await getHistory();
+            render(model);
+          });
+        }
         render(model);
       });
-
-      model.history = await getHistory();
-      render(model);
     }
 
 
