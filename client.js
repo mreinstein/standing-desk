@@ -96,8 +96,8 @@ function renderHistory (model) {
     },
     [
     h('tr', [
-      h('td', { style: 'border-bottom: 1px solid lightgray' }, 'Time'),
-      h('td', { style: 'border-bottom: 1px solid lightgray' }, 'Height')
+      h('td', { style: { borderBottom: '1px solid lightgray' } }, 'Time'),
+      h('td', { style: { borderBottom: '1px solid lightgray' } }, 'Height')
     ]),
     ...model.history.map(function (line) {
       const [ timestamp, height ] = line.split(',')
