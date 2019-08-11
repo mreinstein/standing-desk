@@ -806,8 +806,7 @@
           h('td', 'Time'),
           h('td', 'Height')
         ]),
-        model.history.map(function (line) {
-          console.log('stbu a');
+        ...model.history.map(function (line) {
           const [ timestamp, height ] = line.split(',');
           const d = new Date(parseInt(timestamp, 10));
           console.log('got line', timestamp, height, d);
