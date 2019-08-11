@@ -736,7 +736,7 @@
     async function getHistory () {
       const response = await fetch('/history');
       const body = await response.text();
-      return body.split('\n').filter((line) => line.trim().length > 0);
+      return body.split('\n').filter((line) => line.trim().length > 0).reverse();
     }
 
 
@@ -797,19 +797,17 @@
 
       return h('table', {
           style: {
-            width: '100%',
-            maxWidth: '500px'
+            width: '300px'
           }
         },
         [
         h('tr', [
-          h('td', 'Time'),
-          h('td', 'Height')
+          h('td', { style: 'border-bottom: 1px solid lightgray' }, 'Time'),
+          h('td', { style: 'border-bottom: 1px solid lightgray' }, 'Height')
         ]),
         ...model.history.map(function (line) {
           const [ timestamp, height ] = line.split(',');
           const d = new Date(parseInt(timestamp, 10));
-          console.log('got line', timestamp, height, d);
 
           return h('tr', [
             h('td', `${d.toLocaleDateString()} ${d.toLocaleTimeString()}`),
