@@ -783,6 +783,7 @@
             }
           }, 'Set Height'),
           h('label', model.state ? `height: ${model.height}"  state: ${model.state}` : 'retrieving state'),
+          h('h3', 'History'),
           renderHistory(model)
       ]);
 
@@ -791,11 +792,29 @@
 
 
     function renderHistory (model) {
-      return h('div', model.history.map(function (line) {
-        const [ timestamp, height ] = line.split(',');
-        const d = new Date(parseInt(timestamp, 10));
-        return `${d.toLocaleDateString()} ${d.toLocaleTimeString()}  ${height}`
-      }))
+      if (!model.history.length)
+        return h('div', 'no history available')
+
+      return h('table', {
+          style: {
+            width: '100%'
+          }
+        },
+        [
+        h('tr', [
+          h('td', 'Time'),
+          h('td', 'Height')
+        ]),
+        model.history.map(function (line) {
+          const [ timestamp, height ] = line.split(',');
+          const d = new Date(parseInt(timestamp, 10));
+          return h('tr', [
+            h('td', `${d.toLocaleDateString()} ${d.toLocaleTimeString()}`),
+            h('td', `${height}"`)
+          ])
+        })
+      ])
+
     }
 
 
