@@ -76,7 +76,7 @@ function render (model) {
           }
         }
       }, 'Set Height'),
-      h('label', model.state ? `height: ${model.height}"  state: ${model.state}` : 'retrieving state')
+      h('label', model.state ? `height: ${model.height}"  state: ${model.state}` : 'retrieving state'),
       renderHistory(model)
   ])
 
