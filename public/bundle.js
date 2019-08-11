@@ -736,7 +736,7 @@
     async function getHistory () {
       const response = await fetch('/history');
       const body = await response.text();
-      return body.split('\n').map((line) => line.trim().length > 0);
+      return body.split('\n').filter((line) => line.trim().length > 0);
     }
 
 
@@ -791,8 +791,11 @@
 
 
     function renderHistory (model) {
-      console.log('todo: render the history:', model);
-      return h('div', 'history')
+      return h('div', model.history.map(function (line) {
+        const [ timestamp, height ] = line.split(',');
+        const d = new Date(timestamp);
+        return `${d.toLocaleDateString()} ${d.toLocaleTimeString()}  ${height}`
+      }))
     }
 
 
